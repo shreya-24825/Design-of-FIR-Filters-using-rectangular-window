@@ -10,8 +10,49 @@
   PC Installed with SCILAB 
 
 # PROGRAM 
+```
+clc;
+clear;
+close;
+N = 25;           
+wc = 0.4 * %pi;    
+alpha = (N - 1) / 2; 
 
+hd = zeros(1, N);
+for n = 0:N-1
+    if (n - alpha) == 0 then
+        hd(n+1) = wc / %pi;
+    else
+        hd(n+1) = sin(wc * (n - alpha)) / (%pi * (n - alpha));
+    end
+end
+
+w = ones(1, N);
+
+h = hd .* w;
+
+Nfft = 1024;              
+H = fft(h, -1);           
+H = [H, zeros(1, Nfft - N)];
+H = fft(H, -1);           
+
+f = (0:Nfft-1) / Nfft;
+
+plot(f, abs(H));
+xlabel('Normalized Frequency');
+ylabel('Magnitude');
+title('Low Pass FIR Filter using Rectangular Window');
+xgrid();
+
+disp("Filter Coefficients:");
+disp(h);
+```
 
 # OUTPUT
 
+<img width="1919" height="1199" alt="E4 - FIR(rect)" src="https://github.com/user-attachments/assets/93f35088-56f8-4899-80f5-8fa4811f8bb1" />
+
+
 # RESULT
+
+The Low Pass FIR digital filter was successfully designed using the rectangular window method, and its impulse and frequency responses were plotted and observed to exhibit proper low-pass characteristics.
